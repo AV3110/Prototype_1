@@ -4,4 +4,7 @@
     <string name="choose_conditions">Choose the weather conditions in which you want the alarm to remain silent</string>
     <string name="thunderstorm">Thunderstorm</string>
     <string name="weather_button">Switch Weather Conditions</string>
+    <string name="set_alarm">Set Alarm</string>
+    <string name="add_alarm">Add Alarm</string>
+    <string name="tom_weather">Tomorrow\'s Forecast</string>
 </resources>
