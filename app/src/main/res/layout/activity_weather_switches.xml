@@ -100,7 +100,7 @@
         android:text="@string/thunderstorm"
         android:textSize="18sp"
         app:fontFamily="casual"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintBottom_toTopOf="@+id/weatherImage"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Switch
@@ -112,7 +112,7 @@
         app:layout_constraintTop_toBottomOf="@+id/switch8" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/weatherImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="22dp"
@@ -121,12 +121,12 @@
         android:layout_marginRight="13dp"
         android:layout_marginBottom="51dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView"
+        app:layout_constraintEnd_toStartOf="@+id/weatherTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/tstorm3" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/weatherTextView"
         android:layout_width="0dp"
         android:layout_height="39dp"
         android:layout_marginEnd="36dp"
@@ -134,9 +134,9 @@
         android:text="@string/tom_weather"
         android:textSize="18sp"
         app:fontFamily="casual"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/weatherImage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintStart_toEndOf="@+id/weatherImage"
+        app:layout_constraintTop_toTopOf="@+id/weatherImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
