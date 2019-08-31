@@ -13,23 +13,9 @@ public class DeviceLocationModel {
         return mLatitude;
     }
 
-    public void setmLatitude(String mLatitude) {
-        this.mLatitude = mLatitude;
-    }
 
     public String getmLongitude() {
         return mLongitude;
     }
 
-    public void setmLongitude(String mLongitude) {
-        this.mLongitude = mLongitude;
-    }
-
-    @Override
-    public String toString() {
-        return "DeviceLocationModel{" +
-                "mLatitude=" + mLatitude +
-                ", mLongitude=" + mLongitude +
-                '}';
-    }
 }
