@@ -6,12 +6,15 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +43,7 @@ public class WeatherSwitches extends AppCompatActivity {
     TextView weatherTextView;
     TextView descriptionTv;
     ImageView weatherImage;
+    Button goToMapBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,16 @@ public class WeatherSwitches extends AppCompatActivity {
         weatherTextView = findViewById(R.id.weatherTextView);
         weatherImage = findViewById(R.id.weatherImage);
         descriptionTv = findViewById(R.id.descriptionTv);
+        goToMapBtn = findViewById(R.id.goToMapBtn);
+
+        goToMapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(WeatherSwitches.this, MapsActivity.class);
+                startActivity(intent);
+            }
+        });
+
         getLocation();
 
     }

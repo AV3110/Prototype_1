@@ -20,6 +20,7 @@ import android.widget.TimePicker;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    TimePicker timePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +31,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TimePicker timePicker = findViewById(R.id.timePicker);
-        int hour = timePicker.getHour();
-        int minute = timePicker.getMinute();
-        Log.d(TAG, "onCreate: TimePicker hour:" + hour);
-        Log.d(TAG, "onCreate: TimePicker min:" + minute);
+        timePicker = findViewById(R.id.timePicker);
+
+
 
         Button addAlarmBtn = findViewById(R.id.addAlarmBtn);
         addAlarmBtn.setOnClickListener(new View.OnClickListener() {
@@ -57,8 +56,14 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+                int hour = timePicker.getHour();
+                int minute = timePicker.getMinute();
+                Log.d(TAG, "onCreate: TimePicker hour:" + hour);
+                Log.d(TAG, "onCreate: TimePicker min:" + minute);
+
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
             }
         });
 

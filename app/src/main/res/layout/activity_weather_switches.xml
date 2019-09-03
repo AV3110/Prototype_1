@@ -6,19 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".WeatherSwitches">
 
+    <Button
+        android:id="@+id/goToMapBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/descriptionTv"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
     <TextView
         android:id="@+id/textView7"
         android:layout_width="0dp"
-        android:layout_height="75dp"
+        android:layout_height="0dp"
         android:layout_marginStart="31dp"
         android:layout_marginTop="75dp"
         android:layout_marginEnd="31dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="513dp"
         android:text="@string/choose_conditions"
         android:textSize="14sp"
         android:textStyle="bold"
         app:fontFamily="casual"
-        app:layout_constraintBottom_toTopOf="@+id/switch6"
+        app:layout_constraintBottom_toTopOf="@+id/goToMapBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -134,13 +146,15 @@
 
     <TextView
         android:id="@+id/descriptionTv"
-        android:layout_width="149dp"
+        android:layout_width="0dp"
         android:layout_height="68dp"
-        android:layout_marginEnd="96dp"
 
+        android:layout_marginStart="150dp"
+        android:layout_marginEnd="8dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/weatherImage" />
+        app:layout_constraintEnd_toStartOf="@+id/goToMapBtn"
+        app:layout_constraintStart_toEndOf="@+id/weatherImage"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
