@@ -17,5 +17,4 @@ public class DeviceLocationModel {
      String getmLongitude() {
         return mLongitude;
     }
-
 }

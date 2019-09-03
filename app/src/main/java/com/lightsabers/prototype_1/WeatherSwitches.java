@@ -6,7 +6,6 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -39,6 +38,7 @@ public class WeatherSwitches extends AppCompatActivity {
     final String APP_ID = "b66a11414f95f5c737e8bc71d139bec8";
 
     TextView weatherTextView;
+    TextView descriptionTv;
     ImageView weatherImage;
 
     @Override
@@ -48,6 +48,7 @@ public class WeatherSwitches extends AppCompatActivity {
         setContentView(R.layout.activity_weather_switches);
         weatherTextView = findViewById(R.id.weatherTextView);
         weatherImage = findViewById(R.id.weatherImage);
+        descriptionTv = findViewById(R.id.descriptionTv);
         getLocation();
 
     }
@@ -78,7 +79,7 @@ public class WeatherSwitches extends AppCompatActivity {
                 params.put("lat", deviceLocationModel.getmLatitude());
                 params.put("lon", deviceLocationModel.getmLongitude());
                 params.put("appid", APP_ID);
-                
+
                 networkCall(params);
 
             }
@@ -101,13 +102,13 @@ public class WeatherSwitches extends AppCompatActivity {
         };
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    Activity#requestPermissions
+
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
-            // for Activity#requestPermissions for more details.
+            // for Activity#requestPermissions
+            //for more details
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
             return;
         }
@@ -126,6 +127,7 @@ public class WeatherSwitches extends AppCompatActivity {
 
                 CurrentWeatherModel weatherModel = CurrentWeatherModel.parseJson(response);
                 weatherTextView.setText(weatherModel.getmWeather());
+                descriptionTv.setText(weatherModel.getmDescription());
 
             }
 

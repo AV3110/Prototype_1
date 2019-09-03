@@ -9,13 +9,17 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TimePicker;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        TimePicker timePicker = findViewById(R.id.timePicker);
+        int hour = timePicker.getHour();
+        int minute = timePicker.getMinute();
+        Log.d(TAG, "onCreate: TimePicker hour:" + hour);
+        Log.d(TAG, "onCreate: TimePicker min:" + minute);
+
+        Button addAlarmBtn = findViewById(R.id.addAlarmBtn);
+        addAlarmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: addAlarmBtn");
+            }
+        });
 
         Button weatherButton =  findViewById(R.id.button);
         weatherButton.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
     }
 
     @Override
