@@ -9,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.provider.AlarmClock;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -17,7 +18,7 @@ import android.widget.Button;
 import android.widget.TimePicker;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
     TimePicker timePicker;
@@ -34,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         timePicker = findViewById(R.id.timePicker);
 
 
-
         Button addAlarmBtn = findViewById(R.id.addAlarmBtn);
         addAlarmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,30 +43,44 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button weatherButton =  findViewById(R.id.button);
+        Button weatherButton = findViewById(R.id.button);
         weatherButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, WeatherSwitches.class);
                 startActivity(intent);
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             }
         });
 
-    FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                int hour = timePicker.getHour();
-                int minute = timePicker.getMinute();
-                Log.d(TAG, "onCreate: TimePicker hour:" + hour);
-                Log.d(TAG, "onCreate: TimePicker min:" + minute);
+                addNewAlarm();
 
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
             }
         });
 
+
+    }
+
+    private void addNewAlarm() {
+        int hour = timePicker.getHour();
+        int minute = timePicker.getMinute();
+
+        Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
+        intent.putExtra(AlarmClock.EXTRA_HOUR, hour);
+        intent.putExtra(AlarmClock.EXTRA_MINUTES, minute);
+        intent.putExtra(AlarmClock.EXTRA_MESSAGE, "Added Alarm for " + hour + " and " + minute);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
 
     }
 

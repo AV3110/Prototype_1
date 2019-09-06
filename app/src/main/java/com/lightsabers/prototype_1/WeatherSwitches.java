@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,7 +16,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +29,18 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import cz.msebera.android.httpclient.Header;
 
-public class WeatherSwitches extends AppCompatActivity {
+public class WeatherSwitches extends AppCompatActivity    {
     private static final String TAG = "WeatherSwitches";
 
     String LOCATION_PROVIDER = LocationManager.NETWORK_PROVIDER;
 
     LocationManager mLocationManager;
     LocationListener mLocationListener;
+    String weatherText;
     long MIN_TIME = 5000;
     float MIN_DISTANCE = 1000;
     final int REQUEST_CODE = 123;
@@ -44,6 +51,8 @@ public class WeatherSwitches extends AppCompatActivity {
     TextView descriptionTv;
     ImageView weatherImage;
     Button goToMapBtn;
+    CheckBox c1, c2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +63,41 @@ public class WeatherSwitches extends AppCompatActivity {
         weatherImage = findViewById(R.id.weatherImage);
         descriptionTv = findViewById(R.id.descriptionTv);
         goToMapBtn = findViewById(R.id.goToMapBtn);
+        c1 = findViewById(R.id.textview8);
+        c2 = findViewById(R.id.textview9);
 
         goToMapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(WeatherSwitches.this, MapsActivity.class);
                 startActivity(intent);
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             }
         });
 
         getLocation();
+
+        c1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (c1.isChecked()) {
+                    Toast.makeText(getApplicationContext(), "thunderstorm selected.", Toast.LENGTH_SHORT).show();
+                   //weatherCondition();
+                }
+            }
+        });
+
+        c2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (c2.isChecked()) {
+                    Toast.makeText(getApplicationContext(), "blizzard selected", Toast.LENGTH_SHORT).show();
+                    //weatherCondition();
+                }
+            }
+        });
 
     }
 
@@ -138,13 +172,10 @@ public class WeatherSwitches extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 Log.d(TAG, "onSuccess: JSON: " + response.toString());
-
                 CurrentWeatherModel weatherModel = CurrentWeatherModel.parseJson(response);
                 weatherTextView.setText(weatherModel.getmWeather());
                 descriptionTv.setText(weatherModel.getmDescription());
-
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
@@ -152,6 +183,31 @@ public class WeatherSwitches extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Request Failed", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void weatherCondition() {
+
+        CurrentWeatherModel model = new CurrentWeatherModel();
+
+        String weatherText = model.getmWeather();
+        String cboxText1 = String.valueOf(R.string.thunderstorm);
+        String cboxText2 = String.valueOf(R.string.blizzard);
+
+        if (weatherText.equals(cboxText1)) {
+            Log.d(TAG, "weatherCondition: dnt ring the alarm " + cboxText1);
+            Toast.makeText(getApplicationContext(), "Weather : " + cboxText1, Toast.LENGTH_SHORT).show();
+        } else {
+            Log.d(TAG, "weatherCondition: RINGGGGG!!");
+        }
+        if (weatherText.equals(cboxText2)) {
+            Log.d(TAG, "weatherCondition: dnt ring the alarm ");
+            Toast.makeText(getApplicationContext(), "Weather : " + cboxText2, Toast.LENGTH_SHORT).show();
+        } else{
+            Log.d(TAG, "weatherCondition: RINGGGGG!!");
+        }
+
+
+
     }
 
     @Override

@@ -1,20 +1,21 @@
 package com.lightsabers.prototype_1;
 
-public class DeviceLocationModel {
+class DeviceLocationModel {
     private String mLatitude;
     private String mLongitude;
 
-    public DeviceLocationModel(String mLatitude, String mLongitude) {
+
+
+    DeviceLocationModel(String mLatitude, String mLongitude) {
         this.mLatitude = mLatitude;
         this.mLongitude = mLongitude;
     }
 
-    public String getmLatitude() {
+    String getmLatitude() {
         return mLatitude;
     }
 
-
-     String getmLongitude() {
+    String getmLongitude() {
         return mLongitude;
     }
 }

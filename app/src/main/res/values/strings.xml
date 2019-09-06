@@ -8,4 +8,7 @@
     <string name="add_alarm">Add Alarm</string>
     <string name="tom_weather">Tomorrow\'s Forecast</string>
     <string name="title_activity_maps">Map</string>
+    <string name="hour">hour</string>
+    <string name="blizzard">Blizzard</string>
+    <string name="Map">Map</string>
 </resources>
