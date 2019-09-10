@@ -5,7 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.annotation.TargetApi;
+
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,7 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.Switch;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,7 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+
 
 import cz.msebera.android.httpclient.Header;
 
@@ -46,22 +47,30 @@ public class WeatherSwitches extends AppCompatActivity    {
     final int REQUEST_CODE = 123;
     final String BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
     final String APP_ID = "b66a11414f95f5c737e8bc71d139bec8";
+    double temp;
 
     TextView weatherTextView;
     TextView descriptionTv;
+    TextView temperatureV;
     ImageView weatherImage;
     Button goToMapBtn;
     CheckBox c1, c2;
+    ProgressDialog progressDialog;
+    String latitude;
+    String longitude;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        progressDialog = ProgressDialog.show(WeatherSwitches.this, "", "Please wait");
+
         setContentView(R.layout.activity_weather_switches);
         weatherTextView = findViewById(R.id.weatherTextView);
         weatherImage = findViewById(R.id.weatherImage);
         descriptionTv = findViewById(R.id.descriptionTv);
+        temperatureV = findViewById(R.id.temperature);
         goToMapBtn = findViewById(R.id.goToMapBtn);
         c1 = findViewById(R.id.textview8);
         c2 = findViewById(R.id.textview9);
@@ -70,6 +79,8 @@ public class WeatherSwitches extends AppCompatActivity    {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(WeatherSwitches.this, MapsActivity.class);
+                intent.putExtra("Latitude", latitude);
+                intent.putExtra("Longitude", longitude);
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             }
@@ -98,14 +109,13 @@ public class WeatherSwitches extends AppCompatActivity    {
                 }
             }
         });
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: called");
-        getLocation();
+        //getLocation();
     }
 
     private void getLocation() {
@@ -116,8 +126,8 @@ public class WeatherSwitches extends AppCompatActivity    {
             public void onLocationChanged(Location location) {
                 Log.d(TAG, "onLocationChanged: callback received");
 
-                String latitude = String.valueOf(location.getLatitude());
-                String longitude = String.valueOf(location.getLongitude());
+                latitude = String.valueOf(location.getLatitude());
+                longitude = String.valueOf(location.getLongitude());
 
                 DeviceLocationModel deviceLocationModel = new DeviceLocationModel(latitude, longitude);
                 Log.d(TAG, "onLocationChanged: latitude = " + deviceLocationModel.getmLatitude());
@@ -151,18 +161,10 @@ public class WeatherSwitches extends AppCompatActivity    {
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for Activity#requestPermissions
-            //for more details
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
             return;
         }
         mLocationManager.requestLocationUpdates(LOCATION_PROVIDER, MIN_TIME, MIN_DISTANCE, mLocationListener);
-
-
     }
 
     private void networkCall(RequestParams params) {
@@ -175,6 +177,9 @@ public class WeatherSwitches extends AppCompatActivity    {
                 CurrentWeatherModel weatherModel = CurrentWeatherModel.parseJson(response);
                 weatherTextView.setText(weatherModel.getmWeather());
                 descriptionTv.setText(weatherModel.getmDescription());
+                temp = weatherModel.getMtemperature()-273.15;
+                temperatureV.setText(String.valueOf(temp));
+                progressDialog.dismiss();
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -205,9 +210,6 @@ public class WeatherSwitches extends AppCompatActivity    {
         } else{
             Log.d(TAG, "weatherCondition: RINGGGGG!!");
         }
-
-
-
     }
 
     @Override
@@ -222,5 +224,4 @@ public class WeatherSwitches extends AppCompatActivity    {
             }
         }
     }
-
 }

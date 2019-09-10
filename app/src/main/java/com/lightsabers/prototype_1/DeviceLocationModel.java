@@ -4,7 +4,8 @@ class DeviceLocationModel {
     private String mLatitude;
     private String mLongitude;
 
-
+     DeviceLocationModel() {
+    }
 
     DeviceLocationModel(String mLatitude, String mLongitude) {
         this.mLatitude = mLatitude;

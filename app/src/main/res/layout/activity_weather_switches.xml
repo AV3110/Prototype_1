@@ -4,103 +4,158 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/appcrop"
     tools:context=".WeatherSwitches">
 
     <Button
         android:id="@+id/goToMapBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="20dp"
+        android:layout_width="360dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="35dp"
+        android:fontFamily="@font/raleway_bold"
         android:text="@string/Map"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/descriptionTv"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="75dp"
-        android:layout_marginEnd="31dp"
-        android:layout_marginBottom="513dp"
-        android:text="@string/choose_conditions"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:fontFamily="casual"
-        app:layout_constraintBottom_toTopOf="@+id/goToMapBtn"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTv"
+        app:layout_constraintVertical_bias="1.0" />
 
     <CheckBox
         android:id="@+id/textview8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/thunderstorm"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.212"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.314"
 
-        />
+        android:layout_marginStart="61dp"
+        android:layout_marginEnd="62dp"
+        android:layout_marginBottom="19dp"
+        android:fontFamily="@font/raleway_bold"
+        android:text="@string/thunderstorm"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/textview9"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 
     <CheckBox
         android:id="@+id/textview9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/raleway_bold"
         android:text="@string/blizzard"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.185"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.387" />
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/textview10"
+        app:layout_constraintStart_toStartOf="@+id/textview8"
+        app:layout_constraintTop_toBottomOf="@+id/textview8" />
+
+    <CheckBox
+        android:id="@+id/textview10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="22dp"
+        android:fontFamily="@font/raleway_bold"
+        android:text="@string/blizzard"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/textview11"
+        app:layout_constraintStart_toStartOf="@+id/textview9"
+        app:layout_constraintTop_toBottomOf="@+id/textview9" />
+
+    <CheckBox
+        android:id="@+id/textview11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="107dp"
+        android:fontFamily="@font/raleway_bold"
+        android:text="@string/blizzard"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/descriptionTv"
+        app:layout_constraintStart_toStartOf="@+id/textview10"
+        app:layout_constraintTop_toBottomOf="@+id/textview10" />
 
     <ImageView
         android:id="@+id/weatherImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginBottom="116dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/weatherTextView"
+        android:layout_width="135dp"
+        android:layout_height="155dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="37dp"
+        app:layout_constraintBottom_toTopOf="@+id/goToMapBtn"
+        app:layout_constraintEnd_toStartOf="@+id/descriptionTv"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/tstorm3" />
 
     <TextView
         android:id="@+id/weatherTextView"
         android:layout_width="0dp"
-        android:layout_height="39dp"
-        android:layout_marginEnd="36dp"
-        android:text="@string/tom_weather"
-        android:textSize="18sp"
+        android:layout_height="0dp"
+        android:layout_marginTop="43dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="418dp"
+        android:fontFamily="@font/raleway_bold"
+        android:gravity="center"
+        android:text="@string/thunderstorm"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:fontFamily="casual"
-        app:layout_constraintBottom_toBottomOf="@+id/weatherImage"
+        app:layout_constraintBottom_toTopOf="@+id/descriptionTv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/weatherImage"
-        app:layout_constraintTop_toTopOf="@+id/weatherImage" />
+        app:layout_constraintStart_toEndOf="@+id/temperature"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/descriptionTv"
         android:layout_width="0dp"
-        android:layout_height="68dp"
+        android:layout_height="0dp"
 
-        android:layout_marginStart="150dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="92dp"
-        android:text="TextView"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="154dp"
+        android:fontFamily="@font/raleway_bold"
+        android:gravity="center"
+        android:text="@string/thunderstorm"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/goToMapBtn"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/weatherImage"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/weatherTextView">
 
     </TextView>
+
+    <TextView
+        android:id="@+id/temperature"
+        android:layout_width="193dp"
+        android:layout_height="137dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="30dp"
+        android:fontFamily="@font/raleway_bold"
+        android:text="24°"
+        android:textAlignment="center"
+        android:textSize="86sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toStartOf="@+id/weatherTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="203dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="118dp"
+        android:layout_marginBottom="29dp"
+        android:fontFamily="@font/raleway_bold"
+        android:gravity="center"
+        android:text="Select Conditons"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textview8"
+        app:layout_constraintStart_toStartOf="@+id/temperature"
+        app:layout_constraintTop_toBottomOf="@+id/temperature" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

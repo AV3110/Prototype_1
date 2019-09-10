@@ -1,27 +1,36 @@
 package com.lightsabers.prototype_1;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.tapadoo.alerter.Alerter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.provider.AlarmClock;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import java.util.Calendar;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     TimePicker timePicker;
+    Calendar calendar = Calendar.getInstance();
+    TimePickerDialog.OnTimeSetListener onTimeSetListener;
+    AlarmManager alarmManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +44,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         timePicker = findViewById(R.id.timePicker);
 
 
-        Button addAlarmBtn = findViewById(R.id.addAlarmBtn);
+        Button addAlarmBtn = findViewById(R.id.deleteAlarmBtn);
         addAlarmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cancelAlarm();
                 Log.d(TAG, "onClick: addAlarmBtn");
             }
         });
@@ -53,35 +63,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                addNewAlarm();
+
+                new TimePickerDialog(MainActivity.this, android.R.style.Theme_Holo_Light_Dialog, onTimeSetListener,
+                        calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
+            }
+
+                //addNewAlarm();
 
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-            }
+
         });
 
+        onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//                Toast.makeText(getApplicationContext(), "Set " + hourOfDay + minute, Toast.LENGTH_SHORT).show();
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
+                calendar.set(Calendar.SECOND, 0);
+                setAlarm(calendar);
 
+            }
+        };
     }
 
-    private void addNewAlarm() {
-        int hour = timePicker.getHour();
-        int minute = timePicker.getMinute();
-
-        Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
-        intent.putExtra(AlarmClock.EXTRA_HOUR, hour);
-        intent.putExtra(AlarmClock.EXTRA_MINUTES, minute);
-        intent.putExtra(AlarmClock.EXTRA_MESSAGE, "Added Alarm for " + hour + " and " + minute);
-        startActivity(intent);
+    public void setAlarm(Calendar c) {
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, MyAlarm.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (getApplicationContext(), 1, intent, 0);
+        if(c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1);
+        }
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+        Toast.makeText(getApplicationContext(), "Set", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onClick(View view) {
+    public void cancelAlarm() {
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(getApplicationContext(), MyAlarm.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (getApplicationContext(), 1, intent, 0);
+        alarmManager.cancel(pendingIntent);
 
+        Toast.makeText(getApplicationContext(), "AlarmCanceled", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -106,3 +138,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 }
+
+
+//    private void addNewAlarm() {
+//        int hour = timePicker.getHour();
+//        int minute = timePicker.getMinute();
+//
+//        Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
+//        intent.putExtra(AlarmClock.EXTRA_HOUR, hour);
+//        intent.putExtra(AlarmClock.EXTRA_MINUTES, minute);
+//        intent.putExtra(AlarmClock.EXTRA_MESSAGE, "Added Alarm for " + hour + " and " + minute);
+//        startActivity(intent);
+//    }
