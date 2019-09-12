@@ -2,18 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <fragment
-        android:id="@+id/autocomplete_fragment"
-        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+
+    <SearchView
+        android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="75dp" />
-
 
     <fragment
         android:id="@+id/map1"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="657dp"
+        android:layout_height="670dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="0dp"></fragment>
 </RelativeLayout>

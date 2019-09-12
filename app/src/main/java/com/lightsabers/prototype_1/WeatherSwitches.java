@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -24,6 +25,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -49,6 +51,7 @@ public class WeatherSwitches extends AppCompatActivity    {
     Calendar calendar = Calendar.getInstance();
     TimePickerDialog.OnTimeSetListener onTimeSetListener;
     AlarmManager alarmManager;
+
 
     String weatherText;
     long MIN_TIME = 5000;
@@ -91,12 +94,32 @@ public class WeatherSwitches extends AppCompatActivity    {
         c2 = findViewById(R.id.textview9);
         addAlarm = findViewById(R.id.addAlarm);
 
+
+
+
         addAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                new TimePickerDialog(WeatherSwitches.this, android.R.style.Widget_Material, onTimeSetListener,
+                        calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
             }
         });
+
+        onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//                Toast.makeText(getApplicationContext(), "Set " + hourOfDay + minute, Toast.LENGTH_SHORT).show();
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
+                calendar.set(Calendar.SECOND, 0);
+
+                Snackbar.make(view, "Alarm set for: " + hourOfDay + ": " + minute, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+
+                setAlarm(calendar);
+
+            }
+        };
 
         goToMapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +134,28 @@ public class WeatherSwitches extends AppCompatActivity    {
 
         getLocation();
 
+    }
+
+    public void setAlarm(Calendar c) {
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, MyAlarm.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (getApplicationContext(), 1, intent, 0);
+        if(c.before(Calendar.getInstance())) {
+            c.add(Calendar.DATE, 1);
+        }
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+        Toast.makeText(getApplicationContext(), "Set", Toast.LENGTH_SHORT).show();
+    }
+
+    public void cancelAlarm() {
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(getApplicationContext(), MyAlarm.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (getApplicationContext(), 1, intent, 0);
+        alarmManager.cancel(pendingIntent);
+
+//        Toast.makeText(getApplicationContext(), "AlarmCanceled", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -182,7 +227,7 @@ public class WeatherSwitches extends AppCompatActivity    {
                 temp = weatherModel.getMtemperature()-273.15;
                 temperatureV.setText(String.valueOf(temp));
                 progressDialog.dismiss();
-                weatherCondition(weatherModel);
+
 
                 c1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -195,6 +240,8 @@ public class WeatherSwitches extends AppCompatActivity    {
                             weatherText = "Thunderstorm";
                             if(weatherText.equals(cboxText1)) {
                                 Log.d(TAG, "weatherCondition: true");
+                                cancelAlarm();
+
                             }
                         } else {
                             Snackbar.make(buttonView, "Alarm won't check for a Thunderstorm", Snackbar.LENGTH_LONG)
@@ -226,36 +273,7 @@ public class WeatherSwitches extends AppCompatActivity    {
         });
     }
 
-    public void weatherCondition(CurrentWeatherModel model) {
 
-        String weatherText = model.getmWeather();
-        Log.d(TAG, "weatherCondition: " + weatherText);
-
-        Log.d(TAG, "weatherCondition: " + cboxText1);
-
-
-        if(weatherText.equals(cboxText1)) {
-            Log.d(TAG, "weatherCondition: true");
-        } else if(weatherText.equals(cboxText2)) {
-            Log.d(TAG, "weatherCondition: true2");
-        }else {
-            Log.d(TAG, "weatherCondition: false");
-        }
-
-
-//        if (weatherText.equals(cboxText1)) {
-//            Log.d(TAG, "weatherCondition: dnt ring the alarm " + cboxText1);
-//            Toast.makeText(getApplicationContext(), "Weather : " + cboxText1, Toast.LENGTH_SHORT).show();
-//        } else {
-//            Log.d(TAG, "weatherCondition: RINGGGGG!!");
-//        }
-//        if (weatherText.equals(cboxText2)) {
-//            Log.d(TAG, "weatherCondition: dnt ring the alarm ");
-//            Toast.makeText(getApplicationContext(), "Weather : " + cboxText2, Toast.LENGTH_SHORT).show();
-//        } else{
-//            Log.d(TAG, "weatherCondition: RINGGGGG!!");
-//        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
